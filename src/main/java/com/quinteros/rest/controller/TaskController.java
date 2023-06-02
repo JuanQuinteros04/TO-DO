@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 
 @RestController
@@ -42,7 +41,12 @@ public class TaskController {
     @PatchMapping("/mark_as_finished/{id}")
     public ResponseEntity<Void> markAsFinished(@PathVariable("id") Long id){
         this.taskServiceImpl.updateTaskAsFinished(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.status(204).build();
     }
 
+    @DeleteMapping("/delete_task/{id}")
+    public ResponseEntity<Void> deleteTask(@PathVariable("id") Long id){
+        this.taskServiceImpl.deleteTask(id);
+        return ResponseEntity.status(204).build();
+    }
 }

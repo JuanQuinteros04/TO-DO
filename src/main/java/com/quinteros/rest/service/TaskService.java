@@ -18,4 +18,6 @@ public interface TaskService{
     @Transactional
     public void updateTaskAsFinished(Long id);
 
+    public void deleteTask(Long id);
+
 }
