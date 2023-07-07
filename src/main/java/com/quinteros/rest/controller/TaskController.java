@@ -2,6 +2,7 @@ package com.quinteros.rest.controller;
 
 import com.quinteros.rest.persistence.entity.Task;
 import com.quinteros.rest.persistence.entity.TaskStatus;
+import com.quinteros.rest.service.TaskService;
 import com.quinteros.rest.service.TaskServiceImpl;
 import com.quinteros.rest.service.dto.TaskInDto;
 import org.springframework.http.ResponseEntity;
@@ -14,39 +15,39 @@ import java.util.List;
 @RequestMapping("/tasks")
 public class TaskController {
 
-    private final TaskServiceImpl taskServiceImpl;
+    private final TaskService taskService;
 
     public TaskController(TaskServiceImpl taskServiceImpl) {
-        this.taskServiceImpl = taskServiceImpl;
+        this.taskService = taskServiceImpl;
     }
 
 
     @PostMapping
     public Task createTask(@RequestBody TaskInDto taskInDto) {
-        return this.taskServiceImpl.createTask(taskInDto);
+        return this.taskService.createTask(taskInDto);
     }
 
 
     @GetMapping
     public List<Task> findAll(){
-        return taskServiceImpl.findAll();
+        return taskService.findAll();
     }
 
     @GetMapping("/status/{status}")
     public List<Task> findAllByStatus(@PathVariable("status")TaskStatus status){
 
-        return this.taskServiceImpl.findAllByTaskStatus(status);
+        return taskService.findAllByTaskStatus(status);
     }
 
     @PatchMapping("/mark_as_finished/{id}")
     public ResponseEntity<Void> markAsFinished(@PathVariable("id") Long id){
-        this.taskServiceImpl.updateTaskAsFinished(id);
+        taskService.updateTaskAsFinished(id);
         return ResponseEntity.status(204).build();
     }
 
     @DeleteMapping("/delete_task/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable("id") Long id){
-        this.taskServiceImpl.deleteTask(id);
+        taskService.deleteTask(id);
         return ResponseEntity.status(204).build();
     }
 }
